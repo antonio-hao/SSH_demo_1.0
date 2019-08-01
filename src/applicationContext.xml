@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+               	 http://www.springframework.org/schema/beans/spring-beans.xsd
+                 http://www.springframework.org/schema/context
+               	 http://www.springframework.org/schema/context/spring-context.xsd
+                 http://www.springframework.org/schema/aop 
+                 http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<context:annotation-config />
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+	<!-- 类似于财务部门一样，类就是钱，所有需要类的实例都由srping去管理 -->
+	<bean id="bookCardAction" class="com.ssh.action.BookCardAction" scope="prototype">
+		<!-- setBookCardService(myBookCardService) -->
+		<property name="bookCardService" ref="myBookCardService" />
+	</bean>
+
+	<!-- myBookCardService = new com.ssh.service.BookCardServiceImpl() -->
+	<bean id="myBookCardService" class="com.ssh.service.impl.BookCardServiceImpl" scope="prototype">
+		<property name="bookCardDao" ref="myBookCardDao" />
+	</bean>
+
+	<bean id="myBookCardDao" class="com.ssh.dao.impl.BookCardDaoImpl" scope="prototype">
+		<!-- 把sessionFactory 注入给myBookCardDao -->
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 添加sessionFactory bane ，注意，该类是Spring提供的 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+		scope="prototype">
+		<!-- 注入Hibernate 配置文件路径,前面要加上 classpath: -->
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+	</bean>
+
+
+</beans>

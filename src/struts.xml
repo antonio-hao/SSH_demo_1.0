@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<!-- START SNIPPET: xworkSample -->
+<struts>
+    <include file="struts-default.xml"></include>  
+    
+    <!-- 指定默认编码集 -->  
+    <constant name="struts.i18n.encoding" value="UTF-8"></constant>  
+  
+    <!-- 设置浏览器是否缓存静态内容，开发阶段应关闭，生产阶段打开，默认为打开 -->  
+    <constant name="struts.serve.static.browserCache" value="false"></constant> 
+     
+    <!-- 当struts的配置文件修改后，系统是否自动重新加载该文件，默认为false，开发阶段应打开 -->  
+    <constant name="struts.configuration.xml.reload" value="true"></constant>  
+    
+    <!-- 开发模式下使用，可以打印出更详细的错误信息 -->  
+    <constant name="struts.devMode" value="true"></constant>   
+  
+    <!-- 是否开启动态方法调用 -->  
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" /> 
+    
+    <!-- 是否开启静态方法、属性访问 --> 
+ 	<constant name="struts.ognl.allowStaticMethodAccess" value="true" /> 
+ 	
+	<!-- ui主题设置 --> 
+	<constant name="struts.ui.theme" value="simple"></constant>
+	
+	<!-- 告知Struts2运行时使用Spring来创建对象 -->
+   <constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+   
+   
+    <package name="bookCardpg" extends="struts-default" namespace="/index">
+        <!-- 第2步：定义一个action，配置跳转信息 name 类似于Servlet @WebServlet("/IndexServlet") 
+            http://xxxx/xxx/Index.action http://xxxx/xxx/Index class 对应于自己写的Action类 当不写method属性时，默认调用的是execute
+             class="ssh.action.IndexAction" ** new ssh.action.IndexAction()
+           设计思想：关心了具体的实现类必须改为不要关注那个实现类 加入spring后，struts的action节点的class属性意义发生变化，直接引用spring帮忙创建的实例 
+        -->
+        <action name="bookcardlist" class="bookCardAction">
+             <!-- 跳转是forward/WEB-INF/是防止jsp不经过action就可以访问-->
+            <!-- result接收返回的字符串，然后做对应的事情 -->
+             <result name="success">/WEB-INF/jsp/bookcardlist.jsp</result>
+         </action>
+       </package>
+	
+
+</struts>
+
+<!-- END SNIPPET: xworkSample -->
+
